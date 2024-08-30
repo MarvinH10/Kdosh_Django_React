@@ -2,7 +2,6 @@ from django.db import models
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=200)
-    # compuesto = models.CharField(max_length=500)
     parent = models.ForeignKey(
         'self', 
         null=True, 
@@ -44,11 +43,12 @@ class Atributo(models.Model):
         return self.nombre
     
 class ValorAtributo(models.Model):
-    # atributo = models.ForeignKey(
-    #     'Atributo',
-    #     on_delete=models.CASCADE,
-    #     related_name='valores_atributos'
-    # )
+    atributo = models.ForeignKey(
+        'Atributo',
+        on_delete=models.CASCADE,
+        related_name='valores',
+        default=1
+    )
     valor = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -60,12 +60,12 @@ class ProductoAtributo(models.Model):
     producto = models.ForeignKey(
         'Producto', 
         on_delete=models.CASCADE,
-        related_name='producto_atributos'
+        related_name='atributos'
     )
     valor_atributo = models.ForeignKey(
         'ValorAtributo', 
         on_delete=models.CASCADE,
-        related_name='producto_atributos'
+        related_name='productos'
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -80,12 +80,12 @@ class Imagen(models.Model):
         related_name='imagenes'
     )
     ruta = models.CharField(max_length=500)
-    es_portada = models.BooleanField(default=False)
+    esPortada = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Imagen for {self.producto.nombre} - {'Portada' if self.es_portada else 'No Portada'}"
+        return f"Imagen for {self.producto.nombre} - {'Portada' if self.esPortada else 'No Portada'}"
     
 class Notificacion(models.Model):
     titulo = models.CharField(max_length=255)

@@ -23,45 +23,55 @@ export function Navigation() {
   }, []);
 
   return (
-    <nav className="flex justify-between py-3 items-center px-4 bg-black text-white w-full">
+    <nav className="flex items-center justify-between w-full px-4 py-3 text-white bg-black">
       <Link to="/" className="flex items-center">
         <img
           src="../../src/assets/images/BLANCO_KDOSH.png"
           alt="KDOSH Logo"
-          className="h-15 w-20"
+          className="w-20 h-15"
         />
       </Link>
       <div className="relative" ref={dropdownRef}>
-        <Link to="/" className="hover:text-gray-400 font-semibold pr-5">
+        <Link to="/" className="pr-5 font-semibold hover:text-gray-400">
           Dashboard
         </Link>
-        <button onClick={toggleDropdown} className="hover:text-gray-400 font-semibold">
+        <button
+          onClick={toggleDropdown}
+          className="font-semibold hover:text-gray-400"
+        >
           Gestión Productos
-          <i className="bi bi-chevron-down ml-1"></i>
+          <i className="ml-1 bi bi-chevron-down"></i>
         </button>
         {isDropdownOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg">
+          <div className="absolute right-0 w-48 mt-2 text-black bg-white rounded-md shadow-lg">
             <Link
               to="/productos"
-              className="block px-4 py-2 text-sm hover:bg-gray-200 font-semibold rounded-t-md"
+              className="block px-4 py-2 text-sm font-semibold hover:bg-gray-200 rounded-t-md"
               onClick={toggleDropdown}
             >
               Productos
             </Link>
             <Link
               to="/categorias"
-              className="block px-4 py-2 text-sm hover:bg-gray-200 font-semibold rounded-b-md"
+              className="block px-4 py-2 text-sm font-semibold hover:bg-gray-200"
               onClick={toggleDropdown}
             >
               Categorías
             </Link>
-            {/* <Link
+            <Link
               to="/atributos"
-              className="block px-4 py-2 text-sm hover:bg-gray-200 rounded-b-md"
+              className="block px-4 py-2 text-sm font-semibold hover:bg-gray-200 rounded-b-md"
               onClick={toggleDropdown}
             >
               Atributos
-            </Link> */}
+            </Link>
+            <Link
+              to="/valores_atributos"
+              className="block px-4 py-2 text-sm font-semibold hover:bg-gray-200 rounded-b-md"
+              onClick={toggleDropdown}
+            >
+              Valores de Atributos
+            </Link>
           </div>
         )}
       </div>
