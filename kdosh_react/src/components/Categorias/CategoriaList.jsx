@@ -13,6 +13,7 @@ export function CategoriaList() {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(9);
+  const [sortDirection, setSortDirection] = useState("desc");
 
   useEffect(() => {
     async function loadCategorias() {
@@ -30,9 +31,17 @@ export function CategoriaList() {
     localStorage.setItem("viewType", type);
   };
 
+  const handleSort = () => {
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+  };
+
+  const sortedCategorias = [...categorias].sort((a, b) =>
+    sortDirection === "asc" ? a.id - b.id : b.id - a.id
+  );
+
   const indexOfLastCategoria = currentPage * itemsPerPage;
   const indexOfFirstCategoria = indexOfLastCategoria - itemsPerPage;
-  const currentCategorias = categorias.slice(
+  const currentCategorias = sortedCategorias.slice(
     indexOfFirstCategoria,
     indexOfLastCategoria
   );
@@ -52,9 +61,7 @@ export function CategoriaList() {
         <li
           key={1}
           className={`px-3 py-1 mx-1 border rounded cursor-pointer ${
-            currentPage === 1
-              ? "bg-black text-white"
-              : "bg-gray-300 text-black"
+            currentPage === 1 ? "bg-black text-white" : "bg-gray-300 text-black"
           }`}
           onClick={() => paginate(1)}
         >
@@ -78,9 +85,7 @@ export function CategoriaList() {
         <li
           key={i}
           className={`px-3 py-1 mx-1 border rounded cursor-pointer ${
-            currentPage === i
-              ? "bg-black text-white"
-              : "bg-gray-300 text-black"
+            currentPage === i ? "bg-black text-white" : "bg-gray-300 text-black"
           }`}
           onClick={() => paginate(i)}
         >
@@ -120,7 +125,7 @@ export function CategoriaList() {
 
   return (
     <div>
-      <div className="flex justify-end mr-2 mb-1">
+      <div className="flex justify-end mb-1 mr-2">
         <button
           onClick={() => changeViewType("card")}
           className={`px-2 py-1 mr-1 text-sm ${
@@ -148,7 +153,7 @@ export function CategoriaList() {
               <CategoriaCard key={categoria.id} categoria={categoria} />
             ))}
           </div>
-          <div className="mt-4 flex justify-center">
+          <div className="flex justify-center mt-4">
             <ul className="flex list-none">{renderPaginationItems()}</ul>
           </div>
         </div>
@@ -157,16 +162,19 @@ export function CategoriaList() {
           <table className="min-w-full bg-white">
             <thead className="bg-black">
               <tr>
-                <th className="text-white py-2 px-4 border-b text-left font-semibold">
+                <th
+                  className="px-4 py-2 font-semibold text-left text-white border-b cursor-pointer"
+                  onClick={handleSort}
+                >
                   N°
                 </th>
-                <th className="text-white py-2 px-4 border-b text-left font-semibold">
+                <th className="px-4 py-2 font-semibold text-left text-white border-b">
                   Categoría
                 </th>
-                <th className="text-white py-2 px-4 border-b text-left font-semibold">
+                <th className="px-4 py-2 font-semibold text-left text-white border-b">
                   Compuesto
                 </th>
-                <th className="text-white py-2 px-4 border-b text-left font-semibold">
+                <th className="px-4 py-2 font-semibold text-left text-white border-b">
                   Categoría Principal
                 </th>
               </tr>
@@ -178,23 +186,25 @@ export function CategoriaList() {
                     navigate(`/categorias/${categoria.id}`);
                   }}
                   key={categoria.id}
-                  className="hover:bg-gray-100 cursor-pointer"
+                  className="cursor-pointer hover:bg-gray-100"
                 >
-                  <td className="py-2 px-4 border-b font-semibold">
-                    {categorias.length - (indexOfFirstCategoria + index)}
+                  <td className="px-4 py-2 font-semibold border-b">
+                    {sortDirection === "asc"
+                      ? indexOfFirstCategoria + index + 1
+                      : categorias.length - (indexOfFirstCategoria + index)}
                   </td>
-                  <td className="py-2 px-4 border-b">{categoria.nombre}</td>
-                  <td className="py-2 px-4 border-b">
+                  <td className="px-4 py-2 border-b">{categoria.nombre}</td>
+                  <td className="px-4 py-2 border-b">
                     {categoria.combinacion}
                   </td>
-                  <td className="py-2 px-4 border-b">
+                  <td className="px-4 py-2 border-b">
                     {categoria.parent_nombre ? categoria.parent_nombre : " "}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="mt-4 flex justify-center">
+          <div className="flex justify-center mt-4">
             <ul className="flex list-none">{renderPaginationItems()}</ul>
           </div>
         </div>

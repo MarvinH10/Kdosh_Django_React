@@ -14,6 +14,7 @@ export function ProductoList() {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(9);
+  const [sortDirection, setSortDirection] = useState("desc");
 
   useEffect(() => {
     const fetchCategorias = async () => {
@@ -42,9 +43,17 @@ export function ProductoList() {
     localStorage.setItem("viewType", type);
   };
 
+  const handleSort = () => {
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+  };
+
+  const sortedProductos = [...productos].sort((a, b) =>
+    sortDirection === "asc" ? a.id - b.id : b.id - a.id
+  );
+
   const indexOfLastProducto = currentPage * itemsPerPage;
   const indexOfFirstProducto = indexOfLastProducto - itemsPerPage;
-  const currentProductos = productos.slice(
+  const currentProductos = sortedProductos.slice(
     indexOfFirstProducto,
     indexOfLastProducto
   );
@@ -64,9 +73,7 @@ export function ProductoList() {
         <li
           key={1}
           className={`px-3 py-1 mx-1 border rounded cursor-pointer ${
-            currentPage === 1
-              ? "bg-black text-white"
-              : "bg-gray-300 text-black"
+            currentPage === 1 ? "bg-black text-white" : "bg-gray-300 text-black"
           }`}
           onClick={() => paginate(1)}
         >
@@ -90,9 +97,7 @@ export function ProductoList() {
         <li
           key={i}
           className={`px-3 py-1 mx-1 border rounded cursor-pointer ${
-            currentPage === i
-              ? "bg-black text-white"
-              : "bg-gray-300 text-black"
+            currentPage === i ? "bg-black text-white" : "bg-gray-300 text-black"
           }`}
           onClick={() => paginate(i)}
         >
@@ -132,7 +137,7 @@ export function ProductoList() {
 
   return (
     <div>
-      <div className="flex justify-end mr-2 mb-1">
+      <div className="flex justify-end mb-1 mr-2">
         <button
           onClick={() => changeViewType("card")}
           className={`px-2 py-1 mr-1 text-sm ${
@@ -160,7 +165,7 @@ export function ProductoList() {
               <ProductoCard key={producto.id} producto={producto} />
             ))}
           </div>
-          <div className="mt-4 flex justify-center">
+          <div className="flex justify-center mt-4">
             <ul className="flex list-none">{renderPaginationItems()}</ul>
           </div>
         </div>
@@ -169,22 +174,25 @@ export function ProductoList() {
           <table className="min-w-full bg-white">
             <thead className="bg-black">
               <tr>
-                <th className="text-white py-2 px-4 border-b text-left font-semibold">
+                <th
+                  className="px-4 py-2 font-semibold text-left text-white border-b cursor-pointer"
+                  onClick={handleSort}
+                >
                   N°
                 </th>
-                <th className="text-white py-2 px-4 border-b text-left font-semibold">
+                <th className="px-4 py-2 font-semibold text-left text-white border-b">
                   Nombre
                 </th>
-                <th className="text-white py-2 px-4 border-b text-left font-semibold">
+                <th className="px-4 py-2 font-semibold text-left text-white border-b">
                   Código
                 </th>
-                <th className="text-white py-2 px-4 border-b text-left font-semibold">
+                <th className="px-4 py-2 font-semibold text-left text-white border-b">
                   Categoría
                 </th>
-                <th className="text-white py-2 px-4 border-b text-left font-semibold">
+                <th className="px-4 py-2 font-semibold text-left text-white border-b">
                   Detalle
                 </th>
-                <th className="text-white py-2 px-4 border-b text-left font-semibold">
+                <th className="px-4 py-2 font-semibold text-left text-white border-b">
                   Precio
                 </th>
               </tr>
@@ -196,33 +204,35 @@ export function ProductoList() {
                     navigate(`/productos/${producto.id}`);
                   }}
                   key={producto.id}
-                  className="hover:bg-gray-100 cursor-pointer"
+                  className="cursor-pointer hover:bg-gray-100"
                 >
-                  <td className="py-2 px-4 border-b hover:cursor-pointer font-semibold">
-                    {productos.length - (indexOfFirstProducto + index)}
+                  <td className="px-4 py-2 font-semibold border-b hover:cursor-pointer">
+                    {sortDirection === "asc"
+                      ? indexOfFirstProducto + index + 1
+                      : productos.length - (indexOfFirstProducto + index)}
                   </td>
-                  <td className="py-2 px-4 border-b hover:cursor-pointer">
+                  <td className="px-4 py-2 border-b hover:cursor-pointer">
                     {producto.nombre}
                   </td>
-                  <td className="py-2 px-4 border-b hover:cursor-pointer">
+                  <td className="px-4 py-2 border-b hover:cursor-pointer">
                     {producto.codigo}
                   </td>
-                  <td className="py-2 px-4 border-b hover:cursor-pointer">
+                  <td className="px-4 py-2 border-b hover:cursor-pointer">
                     {categorias.find(
                       (categoria) => categoria.id === producto.categoria
                     )?.combinacion || ""}
                   </td>
-                  <td className="py-2 px-4 border-b hover:cursor-pointer">
+                  <td className="px-4 py-2 border-b hover:cursor-pointer">
                     {producto.detalle}
                   </td>
-                  <td className="py-2 px-4 border-b hover:cursor-pointer">
+                  <td className="px-4 py-2 border-b hover:cursor-pointer">
                     S/{producto.precio}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="mt-4 flex justify-center">
+          <div className="flex justify-center mt-4">
             <ul className="flex list-none">{renderPaginationItems()}</ul>
           </div>
         </div>

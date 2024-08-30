@@ -13,6 +13,7 @@ export function AtributoList() {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(9);
+  const [sortDirection, setSortDirection] = useState("desc");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,9 +50,17 @@ export function AtributoList() {
     localStorage.setItem("viewType", type);
   };
 
+  const handleSort = () => {
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+  };
+
+  const sortedAtributos = [...atributos].sort((a, b) =>
+    sortDirection === "asc" ? a.id - b.id : b.id - a.id
+  );
+
   const indexOfLastAtributo = currentPage * itemsPerPage;
   const indexOfFirstAtributo = indexOfLastAtributo - itemsPerPage;
-  const currentAtributos = atributos.slice(
+  const currentAtributos = sortedAtributos.slice(
     indexOfFirstAtributo,
     indexOfLastAtributo
   );
@@ -172,7 +181,10 @@ export function AtributoList() {
           <table className="min-w-full bg-white">
             <thead className="bg-black">
               <tr>
-                <th className="px-4 py-2 font-semibold text-left text-white border-b">
+                <th
+                  className="px-4 py-2 font-semibold text-left text-white border-b cursor-pointer"
+                  onClick={handleSort}
+                >
                   N°
                 </th>
                 <th className="px-4 py-2 font-semibold text-left text-white border-b">
@@ -193,7 +205,9 @@ export function AtributoList() {
                   className="cursor-pointer hover:bg-gray-100"
                 >
                   <td className="px-4 py-2 font-semibold border-b">
-                    {atributos.length - (indexOfFirstAtributo + index)}
+                    {sortDirection === "asc"
+                      ? indexOfFirstAtributo + index + 1
+                      : atributos.length - (indexOfFirstAtributo + index)}
                   </td>
                   <td className="px-4 py-2 border-b">{atributo.nombre}</td>
                   <td className="px-4 py-2 border-b hover:cursor-pointer">
