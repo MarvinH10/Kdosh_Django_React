@@ -165,7 +165,7 @@ export function CategoriasFormPage() {
           <input
             type="text"
             {...register("nombre", { required: true })}
-            className="text-4xl pt-3 block w-full mb-3 border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
+            className="text-2xl pt-3 block w-full mb-3 border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
             style={{
               transition: "border-color 0.3s",
               backgroundColor: "transparent",

@@ -16,7 +16,7 @@ import { faCloudUploadAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ModalEliminarValorAtributo } from "../../components/ValoresAtributos/ModalEliminarValorAtributo";
 
 export function ValoresAtributosFormPage() {
-  const [valores_atributos, setValoresAtributos] = useState([]);
+  const [, setValoresAtributos] = useState([]);
   const [atributos, setAtributos] = useState([]);
   const [currentNombre, setCurrentNombre] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -165,7 +165,7 @@ export function ValoresAtributosFormPage() {
           <input
             type="text"
             {...register("valor", { required: true })}
-            className="block w-full pt-3 mb-3 text-4xl border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
+            className="block w-full pt-3 mb-3 text-2xl border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
             style={{
               transition: "border-color 0.3s",
               backgroundColor: "transparent",

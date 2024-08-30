@@ -14,6 +14,7 @@ export function ValorAtributoList() {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(9);
+  const [sortDirection, setSortDirection] = useState("desc");
 
   useEffect(() => {
     async function loadValoresAtributos() {
@@ -28,9 +29,8 @@ export function ValorAtributoList() {
             };
           })
         );
-        valoresAtributosConNombres.sort((a, b) => {
-          return new Date(b.created_at) - new Date(a.created_at);
-        });
+
+        valoresAtributosConNombres.sort((a, b) => b.id - a.id);
 
         setValoresAtributos(valoresAtributosConNombres);
       } catch (error) {
@@ -40,9 +40,13 @@ export function ValorAtributoList() {
     loadValoresAtributos();
   }, []);
 
-  const changeViewType = (type) => {
-    setViewType(type);
-    localStorage.setItem("viewType", type);
+  const handleSort = () => {
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    setValoresAtributos((prevValoresAtributos) =>
+      [...prevValoresAtributos].sort((a, b) =>
+        sortDirection === "asc" ? b.id - a.id : a.id - b.id
+      )
+    );
   };
 
   const indexOfLastValorAtributo = currentPage * itemsPerPage;
@@ -133,7 +137,7 @@ export function ValorAtributoList() {
     <div>
       <div className="flex justify-end mb-1 mr-2">
         <button
-          onClick={() => changeViewType("card")}
+          onClick={() => setViewType("card")}
           className={`px-2 py-1 mr-1 text-sm ${
             viewType === "card" ? "bg-black text-white" : "bg-gray-300"
           }`}
@@ -142,7 +146,7 @@ export function ValorAtributoList() {
           <FontAwesomeIcon icon={faThLarge} />
         </button>
         <button
-          onClick={() => changeViewType("list")}
+          onClick={() => setViewType("list")}
           className={`px-2 py-1 text-sm ${
             viewType === "list" ? "bg-black text-white" : "bg-gray-300"
           }`}
@@ -171,7 +175,10 @@ export function ValorAtributoList() {
           <table className="min-w-full bg-white">
             <thead className="bg-black">
               <tr>
-                <th className="px-4 py-2 font-semibold text-left text-white border-b">
+                <th
+                  className="px-4 py-2 font-semibold text-left text-white border-b cursor-pointer"
+                  onClick={handleSort}
+                >
                   N°
                 </th>
                 <th className="px-4 py-2 font-semibold text-left text-white border-b">
@@ -183,7 +190,7 @@ export function ValorAtributoList() {
               </tr>
             </thead>
             <tbody>
-              {currentValoresAtributos.map((valor_atributo, index) => (
+              {currentValoresAtributos.map((valor_atributo) => (
                 <tr
                   onClick={() => {
                     navigate(`/valores_atributos/${valor_atributo.id}`);
@@ -192,8 +199,7 @@ export function ValorAtributoList() {
                   className="cursor-pointer hover:bg-gray-100"
                 >
                   <td className="px-4 py-2 font-semibold border-b">
-                    {valores_atributos.length -
-                      (indexOfFirstValorAtributo + index)}
+                    {valor_atributo.id}
                   </td>
                   <td className="px-4 py-2 border-b">{valor_atributo.valor}</td>
                   <td className="px-4 py-2 border-b">

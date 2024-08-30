@@ -7,13 +7,6 @@ import {
   updateAtributos,
   getAtributo,
 } from "../../api/Atributos/atributos.api";
-// import {
-//   getAllValoresAtributos,
-//   createValoresAtributos,
-//   deleteValoresAtributos,
-//   updateValoresAtributos,
-//   getValorAtributo,
-// } from "../../api/ValoresAtributos/valores_atributos.api";
 import { AtributoBoton } from "../../components/Atributos/AtributoBoton";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -164,7 +157,7 @@ export function AtributosFormPage() {
           <input
             type="text"
             {...register("nombre", { required: true })}
-            className="block w-full pt-3 mb-3 text-4xl border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
+            className="block w-full pt-3 mb-3 text-2xl border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
             style={{
               transition: "border-color 0.3s",
               backgroundColor: "transparent",

@@ -34,13 +34,17 @@ export function ProductosFormPage() {
         const data = await res.json();
         setCategorias(data);
       } catch (error) {
-        toast.success("Error al cargar las categorías", {
-          position: "bottom-right",
-          style: {
-            background: "white",
-            color: "black",
+        toast.success(
+          "Error al cargar las categorías",
+          {
+            position: "bottom-right",
+            style: {
+              background: "white",
+              color: "black",
+            },
           },
-        }, error);
+          error
+        );
       }
     };
 
@@ -128,7 +132,7 @@ export function ProductosFormPage() {
       />
       <div className="flex items-center">
         <ProductoBoton />
-        <div className="ml-4 flex">
+        <div className="flex ml-4">
           {!params.id && (
             <button
               onClick={handleSubmit(onSubmit)}
@@ -150,7 +154,7 @@ export function ProductosFormPage() {
           {params.id && (
             <button
               onClick={handleDeleteClick}
-              className="px-2 py-1 text-sm text-red-500 rounded-lg ml-2"
+              className="px-2 py-1 ml-2 text-sm text-red-500 rounded-lg"
               title="Eliminar"
             >
               <FontAwesomeIcon icon={faTrash} />
@@ -158,15 +162,15 @@ export function ProductosFormPage() {
           )}
         </div>
       </div>
-      <div className="p-2 bg-white rounded-lg shadow-md max-w-1xl border border-gray-300 mr-2 ml-2 mt-2">
-        <form className="mr-2 ml-2 " onSubmit={onSubmit}>
-          <p className="text-gray-800 text-sm font-semibold flex-grow ml-1">
+      <div className="p-2 mt-2 ml-2 mr-2 bg-white border border-gray-300 rounded-lg shadow-md max-w-1xl">
+        <form className="ml-2 mr-2 " onSubmit={onSubmit}>
+          <p className="flex-grow ml-1 text-sm font-semibold text-gray-800">
             Nombre del Producto
           </p>
           <input
             type="text"
             {...register("nombre", { required: true })}
-            className="text-4xl pt-3 block w-full mb-3 border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
+            className="block w-full mb-3 text-2xl border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
             style={{
               transition: "border-color 0.3s",
               backgroundColor: "transparent",
@@ -175,11 +179,11 @@ export function ProductosFormPage() {
             }}
           />
           <div className="flex flex-wrap mb-6">
-            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <p className="text-gray-800 text-sm font-semibold">Código</p>
+            <div className="w-full px-3 mb-6 md:w-1/3 md:mb-0">
+              <p className="text-sm font-semibold text-gray-800">Código</p>
               <input
                 {...register("codigo", { required: true })}
-                className="pt-3 block w-full mb-3 border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
+                className="block w-full mb-3 border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
                 style={{
                   transition: "border-color 0.3s",
                   backgroundColor: "transparent",
@@ -188,13 +192,13 @@ export function ProductosFormPage() {
                 }}
               />
             </div>
-            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <p className="text-gray-800 text-sm font-semibold">
+            <div className="w-full px-3 mb-6 md:w-1/3 md:mb-0">
+              <p className="text-sm font-semibold text-gray-800">
                 Categoría del Producto
               </p>
               <select
                 {...register("categoria", { required: true })}
-                className="block w-full border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none appearance-none"
+                className="block w-full border-b-2 border-transparent appearance-none focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
                 style={{
                   backgroundColor: "transparent",
                   paddingTop: "0.39rem",
@@ -209,11 +213,11 @@ export function ProductosFormPage() {
                 ))}
               </select>
             </div>
-            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <p className="text-gray-800 text-sm font-semibold">Precio</p>
+            <div className="w-full px-3 mb-6 md:w-1/3 md:mb-0">
+              <p className="text-sm font-semibold text-gray-800">Precio</p>
               <input
                 {...register("precio", { required: true })}
-                className="pt-3 block w-full mb-3 border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
+                className="block w-full pt-3 mb-3 border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
                 style={{
                   transition: "border-color 0.3s",
                   backgroundColor: "transparent",
@@ -223,13 +227,13 @@ export function ProductosFormPage() {
               />
             </div>
           </div>
-          <p className="text-gray-800 text-sm font-semibold flex-grow ml-1">
+          <p className="flex-grow ml-1 text-sm font-semibold text-gray-800">
             Detalle
           </p>
           <textarea
             rows="2"
             {...register("detalle")}
-            className="pt-3 block w-full mb-3 border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
+            className="block w-full pt-3 mb-3 border-b-2 border-transparent focus:border-indigo-500 hover:border-gray-800 focus:outline-none"
             style={{
               transition: "border-color 0.3s",
               backgroundColor: "transparent",
