@@ -60,7 +60,7 @@ export function Navigation() {
             </Link>
             <Link
               to="/atributos"
-              className="block px-4 py-2 text-sm font-semibold hover:bg-gray-200 rounded-b-md"
+              className="block px-4 py-2 text-sm font-semibold hover:bg-gray-200"
               onClick={toggleDropdown}
             >
               Atributos
